@@ -1,0 +1,20 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.title {
+    width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 55px;
+}
+
+.app__main {
+    width: 1240px;
+    height: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+}

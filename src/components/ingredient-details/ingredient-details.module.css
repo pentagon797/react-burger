@@ -1,0 +1,24 @@
+.ingedientDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingedientDetails__title {
+  margin: 51px 250px 0 0;
+}
+
+.ingedientDetails__list {
+  list-style-type: none;
+  display: flex;
+  gap: 50px;
+  padding: 0;
+  margin: 0 0 60px 0;
+}
+
+.ingedientDetails__list_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 8px;
+}

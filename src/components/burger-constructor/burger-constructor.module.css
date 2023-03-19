@@ -1,0 +1,50 @@
+.burgerConstructor {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.burgerConstructor__list {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+
+.burgerConstructor__scroll {
+  display: flex;
+  flex-direction: column;
+  height: 464px;
+  row-gap: 16px;
+  overflow-y: scroll;
+  margin-left: -15px;
+}
+
+.burgerConstructor__item {
+  min-width: 536px;
+  margin-right: 8px;
+}
+
+.burgerConstructor__container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.burgerConstructor__order_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.burgerConstructor__total_price {
+  display: flex;
+  align-items: center;
+}
+
+.burgerConstructor__big_currency_icon {
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

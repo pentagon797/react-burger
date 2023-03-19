@@ -1,0 +1,19 @@
+.ingredient {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  max-width: 272px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ingredient__container {
+  display: flex;
+  align-items: center;
+}
+
+.ingredient__image {
+  width: 240px;
+  height: 120px;
+}
