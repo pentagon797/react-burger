@@ -1,20 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Category } from "../category/category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import s from "./burger-ingredients.module.css";
 import cn from "classnames";
+import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
-export const BurgerIngredients = ({ ingredients }) => {
-  const [current, setCurrent] = useState("buns");
+export const BurgerIngredients = () => {
+  const ingredients = useSelector((state) => state.burgerIngredient.data);
 
   const buns = ingredients.filter((item) => item.type === "bun");
   const sauce = ingredients.filter((item) => item.type === "sauce");
   const main = ingredients.filter((item) => item.type === "main");
 
+  const isLoading = useSelector((state) => state.burgerIngredient.isLoading);
+
+  const [current, setCurrent] = useState("bun");
+
+  const [refBun, inViewBun] = useInView();
+  const [refMain, inViewMain] = useInView();
+  const [refSauce, inViewSauce] = useInView();
+
+  useEffect(() => {
+    if (inViewBun) {
+      setCurrent("buns");
+    } else if (inViewSauce) {
+      setCurrent("sauce");
+    } else if (inViewMain) {
+      setCurrent("main");
+    }
+  }, [inViewBun, inViewSauce, inViewMain]);
+
   function handleClickTab(tab) {
     setCurrent(tab);
     const title = document.getElementById(tab);
-    console.log(title);
     if (title) title.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -35,11 +54,27 @@ export const BurgerIngredients = ({ ingredients }) => {
           Начинки
         </Tab>
       </div>
-      <div className={cn(s.wrapper, "custom-scroll")}>
-        <Category title="Булки" id="buns" ingredients={buns} />
-        <Category title="Соусы" id="sauce" ingredients={sauce} />
-        <Category title="Начинки" id="main" ingredients={main} />
-      </div>
+      {isLoading ? (
+        <h1 className="text text_type_main-large">Загрузка...</h1>
+      ) : (
+        <div className={cn(s.wrapper, "custom-scroll")}>
+          <Category title="Булки" id="buns" ingredients={buns} ref={refBun} />
+          <Category
+            title="Соусы"
+            id="sauce"
+            ingredients={sauce}
+            ref={refSauce}
+          />
+          <Category
+            title="Начинки"
+            id="main"
+            ingredients={main}
+            ref={refMain}
+          />
+        </div>
+      )}
     </section>
   );
 };
+
+export default BurgerIngredients;

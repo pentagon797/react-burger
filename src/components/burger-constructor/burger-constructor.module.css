@@ -13,7 +13,7 @@
 .burgerConstructor__scroll {
   display: flex;
   flex-direction: column;
-  height: 464px;
+  max-height: 464px;
   row-gap: 16px;
   overflow-y: scroll;
   margin-left: -15px;

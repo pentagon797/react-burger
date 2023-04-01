@@ -1,10 +1,15 @@
 import s from "./order-details.module.css";
 import cn from "classnames";
+import { useSelector } from "react-redux";
 
-export const OrderDetails = () => {
+export function OrderDetails() {
+  const orderNumber = useSelector((state) => state.burgerOrder?.orderList?.order.number);
+  
   return (
     <div className={cn(s.orderDetails)}>
-      <h2 className="text text_type_digits-large mt-30 mb-8">123456</h2>
+      <h2 className="text text_type_digits-large mt-30 mb-8">
+        {orderNumber}
+      </h2>
       <h3 className="text text_type_main-medium">идентификатор заказа</h3>
       <div className={cn(s.orderDetails__order_icon, "mt-15 mb-15")} />
       <p className="text text_type_main-small mb-2">
@@ -15,4 +20,6 @@ export const OrderDetails = () => {
       </p>
     </div>
   );
-};
+}
+
+export default OrderDetails;

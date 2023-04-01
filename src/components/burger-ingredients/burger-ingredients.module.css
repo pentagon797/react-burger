@@ -6,6 +6,7 @@
 
 .wrapper {
     overflow-y: scroll;
+    margin-right: -2px;
 }
 
 .ingredients {

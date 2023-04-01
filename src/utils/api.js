@@ -1,15 +1,17 @@
-const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+export const BURGER_API_URL = "https://norma.nomoreparties.space/api/";
 
-const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then(err => Promise.reject(err))
-}
+export const checkResponse = (res) => {
+  return res.ok
+    ? res.json()
+    : res.json().then((res) => Promise.reject(`Ошибка: ${res.message}`));
+};
 
-export const getIngredients = () => {
-    return fetch(`${BURGER_API_URL}/ingredients`)
-        .then(checkResponse)
-        .then(dataIngrediens => {
-            if (dataIngrediens.success) {
-                return dataIngrediens.data;
-            }
-        })
-}
+export const request = (url, options) => {
+  return fetch(url, options).then(checkResponse);
+};
+
+const getInfoFromServer = () => {
+  return request(`${BURGER_API_URL}ingredients`).then((data) => data.data);
+};
+
+export default getInfoFromServer;

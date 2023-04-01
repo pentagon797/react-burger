@@ -1,5 +1,7 @@
 import cn from "classnames";
 import s from "./ingredient-details.module.css";
+import React from "react";
+import PropTypes from "prop-types";
 
 export const IngredientDetails = ({ data }) => {
   return (
@@ -48,3 +50,9 @@ export const IngredientDetails = ({ data }) => {
     </div>
   );
 };
+
+IngredientDetails.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+export default IngredientDetails;
