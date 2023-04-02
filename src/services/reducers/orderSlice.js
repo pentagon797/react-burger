@@ -28,6 +28,19 @@ export const orderSliceInfo = createSlice({
       state.orderList = action.payload;
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(sendOrder.fulfilled, (state, action) => {
+        state.orderIngredients = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(sendOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sendOrder.rejected, (state) => {
+        state.isLoading = false;
+      });
+  },
 });
 
 export const { setOrderDetails } = orderSliceInfo.actions;

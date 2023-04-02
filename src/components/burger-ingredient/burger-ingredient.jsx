@@ -12,8 +12,7 @@ import { selectCountState } from "../../services/reducers/constructorSlice";
 import PropTypes from 'prop-types';
 
 export const BurgerIngredient = ({ onClick, data }) => {
-  const id = uuidv4();
-
+  
   const [_, dragRef] = useDrag({
     type: "BurgerIngredient",
     item: data,
@@ -30,8 +29,6 @@ export const BurgerIngredient = ({ onClick, data }) => {
       className={cn(s.ingredient, "mb-6")}
       onClick={handleClickIngredient}
       ref={dragRef}
-      key={id}
-      id={id}
     >
       {counter !== 0 && <Counter count={counter} size="default" />}
       <img
@@ -49,7 +46,8 @@ export const BurgerIngredient = ({ onClick, data }) => {
 };
 
 BurgerIngredient.propTypes = {
-	data: PropTypes.object.isRequired
+	onClick: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default BurgerIngredient;

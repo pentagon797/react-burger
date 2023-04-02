@@ -7,10 +7,9 @@ import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import cn from "classnames";
-import { v4 as uuidv4 } from "uuid";
 import s from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { addConstructorElement } from "../../services/reducers/constructorSlice";
+import { addConstructorElement, removeConstructorElement } from "../../services/reducers/constructorSlice";
 import { sendOrder } from "../../services/reducers/orderSlice";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import { Modal } from "../modal/modal";
@@ -85,7 +84,7 @@ export const BurgerConstructor = () => {
               return (
                 <div
                   className={cn(s.burgerConstructor__container)}
-                  key={uuidv4()}
+                  key={selectIngredients.id}
                 >
                   <DragIcon type="primary" />
                   <div className={cn(s.burgerConstructor__item)}>
