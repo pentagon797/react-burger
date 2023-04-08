@@ -1,0 +1,17 @@
+.menu {
+    width: 100%;
+    display: flex;
+    max-height: 56px;
+}
+
+.wrapper {
+    overflow-y: scroll;
+    margin-right: -2px;
+}
+
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    max-height: 912px;
+}
