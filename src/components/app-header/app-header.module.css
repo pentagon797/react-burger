@@ -24,22 +24,36 @@
 }
 
 .link {
-    color: var(--text-inactive-color);
+    color: #8585ad;
     display: flex;
     align-items: center;
     text-decoration: none;
+    transition: 0.2s ease-in-out;
 }
 
 .link_active {
-    color: var(--text-primary-color);
+    color: #fff
 }
 
 .logo {
     display: flex;
     justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
 }
 
 .header__column_right {
     display: flex;
     justify-content: flex-end;
+}
+
+.link:hover {
+    color: #fff;
+    text-shadow:
+    0 0 15px rgb(255,255,255),
+    0 0 5px rgba(180, 0, 255, 0.5);
+}
+
+.logo:hover {
+    scale: 1.05;
 }

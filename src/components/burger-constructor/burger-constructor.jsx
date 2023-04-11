@@ -9,11 +9,15 @@ import { useDrop } from "react-dnd";
 import cn from "classnames";
 import s from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { addConstructorElement, removeConstructorElement } from "../../services/reducers/constructorSlice";
+import {
+  addConstructorElement,
+  clearArray,
+} from "../../services/reducers/constructorSlice";
 import { sendOrder } from "../../services/reducers/orderSlice";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
+import { useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const selectBuns = useSelector((state) => state.burgerConstructor.bun);
@@ -21,6 +25,17 @@ export const BurgerConstructor = () => {
     (state) => state.burgerConstructor.ingredients
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isAuth = useSelector((state) => state.rootReducer?.user?.data);
+  function handleClickOrder(state) {
+    if (isAuth != null) {
+      sendRequest();
+      setOrderModal(true);
+    } else {
+      navigate("/login", { replace: true });
+    }
+  }
 
   const [orderModal, setOrderModal] = useState(null);
   const closeModalOrder = () => {
@@ -54,6 +69,7 @@ export const BurgerConstructor = () => {
       orderList.push(ingredient._id);
     });
     dispatch(sendOrder(orderList));
+    dispatch(clearArray());
   };
 
   return (
@@ -129,9 +145,7 @@ export const BurgerConstructor = () => {
           )}
         </div>
       </div>
-      <div
-        className={cn(s.burgerConstructor__order_container, "mr-4", "mt-10")}
-      >
+      <div className={cn(s.burgerConstructor__order_container, "mr-4", "mt-8")}>
         <div className={cn(s.burgerConstructor__total_price, "mr-10")}>
           <p className="text text_type_digits-medium mr-4">{total}</p>
           <div className={cn(s.burgerConstructor__big_currency_icon)}>
@@ -147,10 +161,7 @@ export const BurgerConstructor = () => {
             htmlType="button"
             type="primary"
             size="medium"
-            onClick={() => {
-              sendRequest();
-              setOrderModal(true);
-            }}
+            onClick={handleClickOrder}
           >
             Оформить заказ
           </Button>

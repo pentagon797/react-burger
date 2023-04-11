@@ -1,9 +1,18 @@
 import cn from "classnames";
 import s from "./ingredient-details.module.css";
 import React from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
-export const IngredientDetails = ({ data }) => {
+export const IngredientDetails = () => {
+  const { idIngredient } = useParams();
+
+  const ingredients = useSelector((state) => state.burgerIngredient.data);
+  const ingredientDetail = ingredients.find(
+    (data) => data._id === idIngredient
+  );
+
   return (
     <div className={cn(s.ingedientDetails)}>
       <h2
@@ -11,15 +20,17 @@ export const IngredientDetails = ({ data }) => {
       >
         Детали ингредиента
       </h2>
-      <img src={data.image_large} alt={data.name} className="" />
-      <p className="text text_type_main-medium mt-8 mb-8">{data.name}</p>
+      <img src={ingredientDetail?.image_large} alt={ingredientDetail?.name} />
+      <p className="text text_type_main-medium mt-8 mb-8">
+        {ingredientDetail?.name}
+      </p>
       <ul className={cn(s.ingedientDetails__list)}>
         <div className={cn(s.ingedientDetails__list_item)}>
           <li className="text text_type_main-default text_color_inactive">
             Калории,ккал
           </li>
           <li className="text text_type_digits-default text_color_inactive">
-            {data.calories}
+            {ingredientDetail?.calories}
           </li>
         </div>
         <div className={cn(s.ingedientDetails__list_item)}>
@@ -27,7 +38,7 @@ export const IngredientDetails = ({ data }) => {
             Белки, г
           </li>
           <li className="text text_type_digits-default text_color_inactive">
-            {data.proteins}
+            {ingredientDetail?.proteins}
           </li>
         </div>
         <div className={cn(s.ingedientDetails__list_item)}>
@@ -35,7 +46,7 @@ export const IngredientDetails = ({ data }) => {
             Жиры, г
           </li>
           <li className="text text_type_digits-default text_color_inactive">
-            {data.fat}
+            {ingredientDetail?.fat}
           </li>
         </div>
         <div className={cn(s.ingedientDetails__list_item)}>
@@ -43,16 +54,12 @@ export const IngredientDetails = ({ data }) => {
             Углеводы, г
           </li>
           <li className="text text_type_digits-default text_color_inactive">
-            {data.carbohydrates}
+            {ingredientDetail?.carbohydrates}
           </li>
         </div>
       </ul>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default IngredientDetails;
