@@ -6,6 +6,8 @@
   max-width: 272px;
   text-align: center;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .ingredient__container {

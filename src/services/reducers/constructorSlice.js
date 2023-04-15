@@ -53,6 +53,10 @@ export const burgerConstructorSlice = createSlice({
         ingredients: sorted,
       };
     },
+    clearArray: (state) => {
+      state.bun = null;
+      state.ingredients = [];
+    },
   },
 });
 
@@ -65,6 +69,10 @@ export const selectCountState = createSelector(
   }
 );
 
-export const { addConstructorElement, removeConstructorElement, sortArray } =
-  burgerConstructorSlice.actions;
+export const {
+  addConstructorElement,
+  removeConstructorElement,
+  sortArray,
+  clearArray,
+} = burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;

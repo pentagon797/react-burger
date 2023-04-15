@@ -1,0 +1,29 @@
+.registerPage {
+  display: flex;
+  flex-direction: column;
+  margin: 180px 0 0 10px;
+}
+
+.registerPage__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registerPage__container {
+  display: flex;
+  gap: 7px
+}
+
+.registerPage__link {
+  text-decoration: none;
+  color: #4C4CFF;
+  transition: all 0.2s ease-in;
+}
+
+.registerPage__link:hover {
+  color: #fff;
+  text-shadow:
+    0 0 15px rgb(255, 255, 255),
+    0 0 5px rgba(180, 0, 255, 0.5);
+}

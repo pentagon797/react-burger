@@ -5,14 +5,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import s from "./burger-ingredient.module.css";
 import cn from "classnames";
-import { v4 as uuidv4 } from "uuid";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { selectCountState } from "../../services/reducers/constructorSlice";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { Link, useLocation } from "react-router-dom";
 
-export const BurgerIngredient = ({ onClick, data }) => {
-  
+export const BurgerIngredient = ({ data, onClick }) => {
+  const location = useLocation();
+
+  const handleClickIngredient = () => {
+    if (typeof onClick === "function") onClick(data);
+  };
+
   const [_, dragRef] = useDrag({
     type: "BurgerIngredient",
     item: data,
@@ -20,15 +25,14 @@ export const BurgerIngredient = ({ onClick, data }) => {
 
   const countID = data._id;
   const counter = useSelector((state) => selectCountState(state, countID));
-  const handleClickIngredient = () => {
-    onClick(data);
-  };
 
   return (
-    <div
+    <Link
       className={cn(s.ingredient, "mb-6")}
-      onClick={handleClickIngredient}
       ref={dragRef}
+      state={{ background: location }}
+      to={`ingredients/${data._id}`}
+      onClick={handleClickIngredient}
     >
       {counter !== 0 && <Counter count={counter} size="default" />}
       <img
@@ -41,13 +45,12 @@ export const BurgerIngredient = ({ onClick, data }) => {
         <CurrencyIcon />
       </div>
       <p className="text text_type_main-default">{data.name}</p>
-    </div>
+    </Link>
   );
 };
 
 BurgerIngredient.propTypes = {
-	onClick: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
 };
 
 export default BurgerIngredient;

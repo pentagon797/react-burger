@@ -7,12 +7,12 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
 
 export const Category = React.forwardRef(({ title, id, ingredients }, ref) => {
-  const [ingredientModal, setIngredientModal] = useState(null);
+  /*const [ingredientModal, setIngredientModal] = useState(null);*/
   const dispatch = useDispatch();
 
-  const closeModalIngredient = () => {
+  /*const closeModalIngredient = () => {
     setIngredientModal(null);
-  };
+  };*/
 
   return (
     <>
@@ -26,18 +26,18 @@ export const Category = React.forwardRef(({ title, id, ingredients }, ref) => {
               key={data._id}
               data={data}
               count={1}
-              onClick={setIngredientModal}
-              setIngredientWindow={() => dispatch(setIngredientModal(data))}
+              /*onClick={setIngredientModal}
+              setIngredientWindow={() => dispatch(setIngredientModal(data))}*/
             />
           ))}
       </div>
-      {ingredientModal && (
-        <Modal onClose={closeModalIngredient}>
-          <IngredientDetails data={ingredientModal} />
-        </Modal>
-      )}
     </>
   );
 });
 
 export default Category;
+/*{ingredientModal && (
+  <Modal onClose={closeModalIngredient}>
+    <IngredientDetails data={ingredientModal} />
+  </Modal>
+)}*/
