@@ -58,7 +58,12 @@ export const BurgerIngredients = () => {
         <h1 className="text text_type_main-large">Загрузка...</h1>
       ) : (
         <div className={cn(s.wrapper, "custom-scroll")}>
-          <Category title="Булки" id="buns" ingredients={buns} ref={refBun} />
+          <Category 
+            title="Булки" 
+            id="buns" 
+            ingredients={buns} 
+            ref={refBun} 
+          />
           <Category
             title="Соусы"
             id="sauce"

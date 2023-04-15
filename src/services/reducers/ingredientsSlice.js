@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import getInfoFromServer from "../../utils/api";
+import { getInfoFromServer } from "../../utils/burger-api";
 
 const initialState = {
   data: [],

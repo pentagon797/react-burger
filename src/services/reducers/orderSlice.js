@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-import { BURGER_API_URL, request } from "../../utils/api";
+import { BURGER_API_URL, request } from "../../utils/burger-api";
 
 const initialState = {
   orderList: null,
@@ -9,7 +8,7 @@ const initialState = {
 export const sendOrder = createAsyncThunk(
   "orderSlice/post",
   async (orderList, ThunkApi) => {
-    const res = await request(`${BURGER_API_URL}orders`, {
+    const res = await request(`${BURGER_API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

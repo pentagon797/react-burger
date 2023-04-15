@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Modal from "./components/modal/modal";
+import Modal from "../modal/modal";
 import { useDispatch } from "react-redux";
-import { checkUserAuth } from "./services/reducers/userSlice";
-import IngredientDetails from "./components/ingredient-details/ingredient-details";
-import { ProtectedPage } from "./utils/protectedPage";
-import { MainLayout } from "./pages/layout/main-layout";
-import { MainPage } from "./pages/main-page/main-page";
-import { IngredientPage } from "./pages/ingredient/ingredient-page";
-import { Page404 } from "./pages/page-404/page-404";
-import { ProfilePage } from "./pages/profile-page/profile-page";
-import { LoginPage } from "./pages/login-page/login-page";
-import { RegisterPage } from "./pages/register/register-page";
-import { ForgotPasswordPage } from "./pages/forgot-password/forgot-password";
-import { ResetPasswordPage } from "./pages/forgot-password/reset-password";
+import { checkUserAuth } from "../../services/reducers/userSlice";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import { ProtectedPage } from "../protected-page/protectedPage";
+import { MainLayout } from "../../pages/layout/main-layout";
+import { MainPage } from "../../pages/main-page/main-page";
+import { IngredientPage } from "../../pages/ingredient/ingredient-page";
+import { Page404 } from "../../pages/page-404/page-404";
+import { ProfilePage } from "../../pages/profile-page/profile-page";
+import { LoginPage } from "../../pages/login-page/login-page";
+import { RegisterPage } from "../../pages/register/register-page";
+import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password";
+import { ResetPasswordPage } from "../../pages/forgot-password/reset-password";
+import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
 
 export function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,10 @@ export function App() {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   function handleCloseModal() {

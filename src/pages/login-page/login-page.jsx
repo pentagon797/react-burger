@@ -24,7 +24,8 @@ export const LoginPage = () => {
   const isUserLoginnedSuccessfully = useSelector(
     (state) => state?.rootReducer?.user?.data
   );
-  const onClickLogin = (data) => {
+
+  const onSubmitLogin = (data) => {
     dispatch(loginUser(data));
     if (isUserLoginnedSuccessfully) {
       navigate("/profile");
@@ -50,7 +51,13 @@ export const LoginPage = () => {
       {isLoading ? (
         <h2 className={`text text_type_digits-large mb-8 `}>Загрузка...</h2>
       ) : (
-        <form className={cn(s.loginPage__form)}>
+        <form
+          className={cn(s.loginPage__form)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmitLogin(value);
+          }}
+        >
           <h2 className="text text_type_main-medium">Вход</h2>
           <EmailInput
             onChange={(evt) => setValue({ ...value, email: evt.target.value })}
@@ -73,9 +80,6 @@ export const LoginPage = () => {
               size="medium"
               htmlType="submit"
               extraClass="mt-6"
-              onClick={() => {
-                onClickLogin(value);
-              }}
             >
               Войти
             </Button>

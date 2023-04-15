@@ -27,12 +27,19 @@ export const RegisterPage = () => {
       name: "",
     });
   };
+
   const isRegisterAvailabe = Boolean(
     value?.email.includes("@") && value.password.length > 5 && value.name !== ""
   );
+
   return (
     <section className={cn(s.registerPage)}>
-      <form className={cn(s.registerPage__form)}>
+      <form 
+      className={cn(s.registerPage__form)} 
+      onSubmit={(e) => {
+            e.preventDefault();
+            registerCallBack(value);
+          }}>
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <Input
           type={"text"}
@@ -64,9 +71,7 @@ export const RegisterPage = () => {
             size="medium"
             htmlType="submit"
             extraClass="mt-6"
-            onClick={() => {
-              registerCallBack(value);
-            }}
+            
           >
             Зарегистрироваться
           </Button>

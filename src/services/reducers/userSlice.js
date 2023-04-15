@@ -53,10 +53,8 @@ export const checkUserAuth = createAsyncThunk(
       if (!data?.success) {
         return rejectWithValue(data);
       }
-      return data.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    } finally {
+        return data.user;
+      } finally {
       dispatch(authCheck());
     }
   }

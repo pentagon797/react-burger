@@ -3,18 +3,10 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import s from "./main-page.module.css";
 import cn from "classnames";
-import { useDispatch } from "react-redux/es/exports";
-import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
 export const MainPage = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
-
   return (
     <div className={s.mainPage}>
       <h1

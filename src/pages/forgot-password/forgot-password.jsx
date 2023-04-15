@@ -16,19 +16,23 @@ export const ForgotPasswordPage = () => {
   const [value, setValue] = useState({
     email: "",
   });
+
   const requsetBody = value;
   const isRequestSuccess = useSelector(
     (state) => state?.rootReducer?.user?.resetPasswordEmailError
   );
+
   const onSubmit = (requsetBody) => {
     dispatch(resetPasswordEmail(requsetBody));
     if (!isRequestSuccess) {
       navigate("/reset-password", { state: { fromForgotPassword: true } });
     }
   };
+
   const isSendAvailable = Boolean(
     value.email.length > 0 && value.email.includes("@")
   );
+  
   return (
     <section className={cn(s.forgotPassword)}>
       <form

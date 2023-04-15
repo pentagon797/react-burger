@@ -1,18 +1,28 @@
 import { getCookie, setCookie } from "./cookie";
-const BURGER_API_URL = "https://norma.nomoreparties.space/api";
-class BurgerApi {
-  checkReponse = (res) => {
-    return res.ok
-      ? res.json()
-      : res
-          .json()
-          .then((err) => Promise.reject({ ...err, statusCode: res.status }));
-  };
 
+export const BURGER_API_URL = "https://norma.nomoreparties.space/api";
+
+export const getInfoFromServer = () => {
+  return request(`${BURGER_API_URL}/ingredients`).then((data) => data.data);
+};
+
+export const checkResponse = (res) => {
+  return res.ok
+    ? res.json()
+    : res
+        .json()
+        .then((err) => Promise.reject({ ...err, statusCode: res.status }));
+};
+
+export const request = (url, options) => {
+  return fetch(url, options).then(checkResponse);
+};
+
+class BurgerApi {
   fetchWithRefresh = async (url, options) => {
     try {
       const res = await fetch(url, options);
-      return await this.checkReponse(res);
+      return await checkResponse(res);
     } catch (error) {
       console.log("fetchWithRefresh", error);
       if (error.statusCode === 401 || error.statusCode === 403) {
@@ -25,7 +35,7 @@ class BurgerApi {
         setCookie("refreshToken", refreshData.refreshToken);
         options.headers.authorization = refreshData.accessToken;
         const res = await fetch(url, options);
-        return await this.checkReponse(res);
+        return await checkResponse(res);
       } else {
         Promise.reject(error);
       }
@@ -40,7 +50,7 @@ class BurgerApi {
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -55,7 +65,7 @@ class BurgerApi {
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -70,7 +80,7 @@ class BurgerApi {
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -85,7 +95,7 @@ class BurgerApi {
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -96,11 +106,11 @@ class BurgerApi {
     return fetch(`${BURGER_API_URL}/password-reset/reset`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -116,7 +126,7 @@ class BurgerApi {
       },
       body: JSON.stringify(data),
     })
-      .then(this.checkReponse)
+      .then(checkResponse)
       .then((data) => {
         if (data?.success) return data;
         return Promise.reject(data);
@@ -132,7 +142,7 @@ class BurgerApi {
       body: JSON.stringify({
         token: getCookie("refreshToken"),
       }),
-    }).then(this.checkReponse);
+    }).then(checkResponse);
   };
 
   getUser = () => {

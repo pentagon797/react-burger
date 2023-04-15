@@ -16,7 +16,7 @@ export const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState({
     password: "",
-    emailCode: "",
+    token: "",
   });
 
   const requestBody = value;
@@ -25,7 +25,7 @@ export const ResetPasswordPage = () => {
   };
 
   const isSendAvailable = Boolean(
-    value.password.length > 5 && value.emailCode.length > 3
+    value.password.length > 5 && value.token.length > 3
   );
   return (
     <section className={cn(s.forgotPassword)}>
@@ -39,10 +39,10 @@ export const ResetPasswordPage = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <Input
           onChange={(evt) =>
-            setValue({ ...value, emailCode: evt.target.value })
+            setValue({ ...value, token: evt.target.value })
           }
-          value={value.emailCode}
-          name={"emailCode"}
+          value={value.token}
+          name={"token"}
           extraClass="mt-6"
           placeholder="Введите код из почты"
         />
