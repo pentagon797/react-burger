@@ -6,12 +6,20 @@ import {
 import s from "./burger-ingredient.module.css";
 import cn from "classnames";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/hook";
 import { selectCountState } from "../../services/reducers/constructorSlice";
-import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
+import { TIngredient } from "../../services/reducers/ingredientsSlice";
 
-export const BurgerIngredient = ({ data, onClick }) => {
+interface IBurgerIngredient {
+  data: TIngredient;
+  onClick?: (data: TIngredient) => void;
+}
+
+export const BurgerIngredient: React.FC<IBurgerIngredient> = ({
+  data,
+  onClick,
+}) => {
   const location = useLocation();
 
   const handleClickIngredient = () => {
@@ -24,14 +32,16 @@ export const BurgerIngredient = ({ data, onClick }) => {
   });
 
   const countID = data._id;
-  const counter = useSelector((state) => selectCountState(state, countID));
+  const counter = useAppSelector((state: any) =>
+    selectCountState(state, countID)
+  );
 
   return (
     <Link
       className={cn(s.ingredient, "mb-6")}
       ref={dragRef}
       state={{ background: location }}
-      to={`ingredients/${data._id}`}
+      to={"ingredients/${data._id}"}
       onClick={handleClickIngredient}
     >
       {counter !== 0 && <Counter count={counter} size="default" />}
@@ -42,15 +52,11 @@ export const BurgerIngredient = ({ data, onClick }) => {
       />
       <div className={cn(s.ingredient__container, "mt-2", "mb-2")}>
         <p className="text text_type_digits-default">{data.price}&nbsp;</p>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary" />
       </div>
       <p className="text text_type_main-default">{data.name}</p>
     </Link>
   );
-};
-
-BurgerIngredient.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default BurgerIngredient;

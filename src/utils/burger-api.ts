@@ -6,29 +6,58 @@ export const getInfoFromServer = () => {
   return request(`${BURGER_API_URL}/ingredients`).then((data) => data.data);
 };
 
-export const checkResponse = (res) => {
+export const checkResponse = (res: Response): Promise<any> => {
   return res.ok
     ? res.json()
     : res
-        .json()
-        .then((err) => Promise.reject({ ...err, statusCode: res.status }));
+      .json()
+      .then((err) => Promise.reject({ ...err, statusCode: res.status } as ErrorResponse));
 };
 
-export const request = (url, options) => {
+export const request = (url: string, options?: RequestInit): Promise<any> => {
   return fetch(url, options).then(checkResponse);
 };
 
-class BurgerApi {
-  fetchWithRefresh = async (url, options) => {
+export interface ErrorResponse {
+  statusCode?: number;
+  message?: string;
+}
+
+export interface IUser {
+  email?: string,
+  name?: string,
+  password?: string,
+  accessToken?: string,
+  refreshToken?: string,
+}
+
+export interface IUserReq {
+  user?: IUser,
+  success: boolean,
+  accessToken: string,
+  refreshToken: string,
+}
+
+export type TUserResponse = {
+  success: boolean,
+  user?: IUser,
+  accessToken: string,
+  refreshToken: string,
+}
+
+
+export class BurgerApi {
+
+  fetchWithRefresh = async (url: string, options: any) => {
     try {
       const res = await fetch(url, options);
       return await checkResponse(res);
-    } catch (error) {
+    } catch (error: any) {
       console.log("fetchWithRefresh", error);
       if (error.statusCode === 401 || error.statusCode === 403) {
         const refreshData = await this.refreshToken();
         if (!refreshData.success) {
-          Promise.reject(refreshData);
+          Promise.reject(refreshData)
         }
 
         setCookie("accessToken", refreshData.accessToken);
@@ -36,100 +65,95 @@ class BurgerApi {
         options.headers.authorization = refreshData.accessToken;
         const res = await fetch(url, options);
         return await checkResponse(res);
+
       } else {
-        Promise.reject(error);
+        Promise.reject(error)
       }
     }
-  };
+  }
 
-  registerUser = (data) => {
+  registerUser = (data: IUser): Promise<IUserReq> => {
     return fetch(`${BURGER_API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
-  loginUser = (data) => {
+  loginUser = (data: IUser): Promise<IUserReq> => {
     return fetch(`${BURGER_API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
-  logoutUser = (data) => {
+  logoutUser = (data: any) => {
     return fetch(`${BURGER_API_URL}/auth/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
-  forgotPasswordEmail = (data) => {
+  forgotPasswordEmail = (data: any) => {
     return fetch(`${BURGER_API_URL}/password-reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
-  forgotPasswordNew = (data) => {
+  forgotPasswordNew = (data: any) => {
     return fetch(`${BURGER_API_URL}/password-reset/reset`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
-  updateInfoUser = (data) => {
+  updateInfoUser = (data: any) => {
     return fetch(`${BURGER_API_URL}/auth/user`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken"),
-      },
+        authorization: getCookie("accessToken")
+      } as HeadersInit,
       body: JSON.stringify(data),
-    })
-      .then(checkResponse)
-      .then((data) => {
+    }).then(checkResponse)
+      .then(data => {
         if (data?.success) return data;
-        return Promise.reject(data);
+        return Promise.reject(data)
       });
   };
 
@@ -145,16 +169,17 @@ class BurgerApi {
     }).then(checkResponse);
   };
 
-  getUser = () => {
+  getUser = (): Promise<TUserResponse> => {
     return this.fetchWithRefresh(`${BURGER_API_URL}/auth/user`, {
       headers: {
         authorization: getCookie("accessToken"),
       },
-    }).then((data) => {
+    }).then(data => {
       if (data?.success) return data;
-      return Promise.reject(data);
+      return Promise.reject(data)
     });
-  };
+  }
+
 }
 
-export default new BurgerApi();
+export default new BurgerApi()

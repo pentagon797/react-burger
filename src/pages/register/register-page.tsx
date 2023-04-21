@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import s from "./register-page.module.css";
 import cn from "classnames";
 import {
@@ -9,17 +9,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../services/reducers/userSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/hook";
 
-export const RegisterPage = () => {
-  const dispatch = useDispatch();
+export const RegisterPage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState({
     email: "",
     password: "",
     name: "",
   });
 
-  const registerCallBack = (value) => {
+  const registerCallBack = (value: any) => {
     dispatch(registerUser(value));
     setValue({
       email: "",
@@ -34,12 +34,13 @@ export const RegisterPage = () => {
 
   return (
     <section className={cn(s.registerPage)}>
-      <form 
-      className={cn(s.registerPage__form)} 
-      onSubmit={(e) => {
-            e.preventDefault();
-            registerCallBack(value);
-          }}>
+      <form
+        className={cn(s.registerPage__form)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          registerCallBack(value);
+        }}
+      >
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <Input
           type={"text"}
@@ -71,7 +72,6 @@ export const RegisterPage = () => {
             size="medium"
             htmlType="submit"
             extraClass="mt-6"
-            
           >
             Зарегистрироваться
           </Button>
@@ -89,13 +89,13 @@ export const RegisterPage = () => {
             Зарегистрироваться
           </Button>
         )}
-        <div className={cn(s.registerPage__container, `mt-20`)}>
+        <div className={cn(s.registerPage__container, "mt-20")}>
           <p className="text text_type_main-default text_color_inactive">
             Уже зарегистрированы?
           </p>
           <Link
             to="/login"
-            className={cn(s.registerPage__link, `text text_type_main-default`)}
+            className={cn(s.registerPage__link, "text text_type_main-default")}
           >
             Войти
           </Link>

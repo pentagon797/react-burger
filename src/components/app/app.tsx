@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../modal/modal";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/hook";
 import { checkUserAuth } from "../../services/reducers/userSlice";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { ProtectedPage } from "../protected-page/protectedPage";
@@ -16,18 +16,21 @@ import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password"
 import { ResetPasswordPage } from "../../pages/forgot-password/reset-password";
 import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
 
-export function App() {
-  const dispatch = useDispatch();
+export const App: React.FC = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
 
-  useEffect(() => {
-    dispatch(checkUserAuth());
-  }, [dispatch]);
+  useEffect(
+    function () {
+      dispatch(fetchIngredients());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    dispatch(fetchIngredients());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   function handleCloseModal() {
@@ -63,16 +66,15 @@ export function App() {
             }
           />
           <Route
-            path="register"
+            path="/register"
             element={
               <ProtectedPage onlyUnAuth>
                 <RegisterPage />
               </ProtectedPage>
             }
           />
-
           <Route
-            path="forgot-password"
+            path="/forgot-password"
             element={
               <ProtectedPage onlyUnAuth>
                 <ForgotPasswordPage />
@@ -106,6 +108,6 @@ export function App() {
       )}
     </>
   );
-}
+};
 
 export default App;

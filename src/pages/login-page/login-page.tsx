@@ -7,11 +7,11 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hook";
 import { loginUser } from "../../services/reducers/userSlice";
 
 export const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [value, setValue] = useState({
     email: "",
@@ -21,11 +21,11 @@ export const LoginPage = () => {
   const isLoginAvailable = Boolean(
     value.email.includes("@") && value.password.length > 5
   );
-  const isUserLoginnedSuccessfully = useSelector(
+  const isUserLoginnedSuccessfully = useAppSelector(
     (state) => state?.rootReducer?.user?.data
   );
 
-  const onSubmitLogin = (data) => {
+  const onSubmitLogin = (data: any) => {
     dispatch(loginUser(data));
     if (isUserLoginnedSuccessfully) {
       navigate("/profile");
@@ -36,20 +36,20 @@ export const LoginPage = () => {
     });
   };
 
-  const isLoading = useSelector(
+  const isLoading = useAppSelector(
     (state) => state?.rootReducer?.user?.loginUserRequest
   );
-  const isError = useSelector(
+  const isError = useAppSelector(
     (state) => state?.rootReducer?.user?.loginUserError
   );
 
   return (
     <section className={cn(s.loginPage)}>
       {isError !== null && (
-        <h2 className={`text text_type_digits mb-8 `}>Произошла ошибка...</h2>
+        <h2 className={"text text_type_digits mb-8 "}>Произошла ошибка...</h2>
       )}
       {isLoading ? (
-        <h2 className={`text text_type_digits-large mb-8 `}>Загрузка...</h2>
+        <h2 className={"text text_type_digits-large mb-8 "}>Загрузка...</h2>
       ) : (
         <form
           className={cn(s.loginPage__form)}
@@ -94,24 +94,24 @@ export const LoginPage = () => {
               Войти
             </Button>
           )}
-          <div className={cn(s.loginPage__container, `mt-20`)}>
+          <div className={cn(s.loginPage__container, "mt-20")}>
             <p className="text text_type_main-default text_color_inactive">
               Вы — новый пользователь?
             </p>
             <Link
               to="/register"
-              className={cn(s.loginPage__link, `text text_type_main-default`)}
+              className={cn(s.loginPage__link, "text text_type_main-default")}
             >
               Зарегистрироваться
             </Link>
           </div>
-          <div className={cn(s.loginPage__container, `mt-4`)}>
+          <div className={cn(s.loginPage__container, "mt-4")}>
             <p className="text text_type_main-default text_color_inactive">
               Забыли пароль?
             </p>
             <Link
               to="/forgot-password"
-              className={cn(s.loginPage__link, `text text_type_main-default`)}
+              className={cn(s.loginPage__link, "text text_type_main-default")}
             >
               Восстановить пароль
             </Link>

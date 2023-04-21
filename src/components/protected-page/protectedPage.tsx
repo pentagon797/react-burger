@@ -1,15 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAppSelector } from "../../services/hook";
 
-export const ProtectedPage = ({ onlyUnAuth, children }) => {
+type TProtectedPage = {
+  onlyUnAuth?: any,
+  children: ReactElement,
+}
+
+export const ProtectedPage: React.FC<TProtectedPage> = ({ onlyUnAuth, children }) => {
   const location = useLocation();
-  const user = useSelector((state) => state.rootReducer?.user.data);
-  const isAuthChecked = useSelector(
-    (state) => state.rootReducer?.user.isAuthChecked
-  );
-
-  /*if (!isAuthChecked) return <h2>Загрузка...</h2>;*/
+  const user = useAppSelector((state) => state.rootReducer?.user.data);
 
   if (onlyUnAuth && user) {
     const { from } = location.state || { from: { pathname: "/" } };

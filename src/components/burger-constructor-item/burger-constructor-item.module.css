@@ -1,0 +1,13 @@
+.burgerConstructor_item {
+  transition: all 0.2s ease-in-out;
+  cursor: grab;
+}
+
+.burgerConstructor_item:hover {
+  opacity: 0.8;
+}
+
+.burgerConstructor_item_dragging {
+  opacity: 0.2;
+  scale: 1.01;
+}

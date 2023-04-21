@@ -1,13 +1,19 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { TIngredient } from "./ingredientsSlice";
 
-const initialState = {
+interface IConstructorState {
+  bun: TIngredient | null;
+  ingredients: TIngredient[];
+}
+
+const initialState: IConstructorState = {
   bun: null,
   ingredients: [],
 };
 
-const buns = (state) => state.burgerConstructor.bun;
-const items = (state) => state.burgerConstructor.ingredients;
+const buns = (state: { burgerConstructor: IConstructorState }) => state.burgerConstructor.bun;
+const items = (state: { burgerConstructor: IConstructorState }) => state.burgerConstructor.ingredients;
 
 export const burgerConstructorSlice = createSlice({
   name: "burgerConstructor",
@@ -26,7 +32,7 @@ export const burgerConstructorSlice = createSlice({
       );
     },
     sortArray: (state, action) => {
-      let sorted = [];
+      let sorted: TIngredient[] = [];
       let start = action.payload[0];
       let end = action.payload[1];
       if (start === end) {
@@ -61,7 +67,7 @@ export const burgerConstructorSlice = createSlice({
 });
 
 export const selectCountState = createSelector(
-  [items, buns, (items, id) => id],
+  [items, buns, (items: TIngredient[], id: string) => id],
   (items, buns, id) => {
     return [buns, ...items, buns].filter(
       (ingredient) => ingredient && ingredient._id === id

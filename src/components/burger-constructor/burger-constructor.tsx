@@ -4,7 +4,6 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import cn from "classnames";
 import s from "./burger-constructor.module.css";
@@ -18,17 +17,23 @@ import BurgerConstructorItem from "../burger-constructor-item/burger-constructor
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services/hook";
+import { RootState } from "../../services/store";
 
-export const BurgerConstructor = () => {
-  const selectBuns = useSelector((state) => state.burgerConstructor.bun);
-  const selectIngredients = useSelector(
-    (state) => state.burgerConstructor.ingredients
+export const BurgerConstructor = (): JSX.Element => {
+  const selectBuns = useAppSelector(
+    (state: RootState) => state.burgerConstructor.bun
   );
-  const dispatch = useDispatch();
+  const selectIngredients = useAppSelector(
+    (state: RootState) => state.burgerConstructor.ingredients
+  );
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const isAuth = useSelector((state) => state.rootReducer?.user?.data);
-  function handleClickOrder(state) {
+  const isAuth = useAppSelector(
+    (state: RootState) => state.rootReducer?.user?.data
+  );
+  function handleClickOrder() {
     if (isAuth != null) {
       sendRequest();
       setOrderModal(true);
@@ -37,12 +42,12 @@ export const BurgerConstructor = () => {
     }
   }
 
-  const [orderModal, setOrderModal] = useState(null);
+  const [orderModal, setOrderModal] = useState<null | boolean>(null);
   const closeModalOrder = () => {
     setOrderModal(null);
   };
 
-  const [{ isHover }, dropRef] = useDrop({
+  const [_, dropRef] = useDrop({
     accept: "BurgerIngredient",
     drop(ingredient) {
       dispatch(addConstructorElement(ingredient));
@@ -59,7 +64,7 @@ export const BurgerConstructor = () => {
       total += ingredient.price;
     });
     return total;
-  });
+  }, [selectBuns, selectIngredients]);
 
   const sendRequest = () => {
     const orderList = [];
@@ -91,6 +96,7 @@ export const BurgerConstructor = () => {
               isLocked={true}
               thumbnail="https://realadmin.ru/assets/images/articles/2021/03/svg-loaders/rings.svg"
               text="Выберите булку"
+              price={0}
             />
           )}
         </div>
@@ -120,6 +126,7 @@ export const BurgerConstructor = () => {
                   isLocked={true}
                   thumbnail="https://realadmin.ru/assets/images/articles/2021/03/svg-loaders/circles.svg"
                   text="Выберите начинку"
+                  price={0}
                 />
               </div>
             </div>
@@ -130,7 +137,7 @@ export const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${selectBuns.name} (вверх)`}
+              text={`${selectBuns.name} (низ)`}
               price={selectBuns.price}
               thumbnail={selectBuns.image}
               key={selectBuns.id}
@@ -141,6 +148,7 @@ export const BurgerConstructor = () => {
               isLocked={true}
               thumbnail="https://realadmin.ru/assets/images/articles/2021/03/svg-loaders/rings.svg"
               text="Выберите булку"
+              price={0}
             />
           )}
         </div>
@@ -152,7 +160,7 @@ export const BurgerConstructor = () => {
             <CurrencyIcon type="primary" />
           </div>
         </div>
-        {selectIngredients == false || selectBuns == null ? (
+        {selectIngredients.length == 0 || selectBuns == null ? (
           <Button htmlType="button" type="primary" size="medium" disabled>
             Оформить заказ
           </Button>
@@ -169,7 +177,7 @@ export const BurgerConstructor = () => {
       </div>
       {orderModal && (
         <Modal onClose={closeModalOrder}>
-          <OrderDetails data={orderModal} />
+          <OrderDetails /*data={orderModal}*/ />
         </Modal>
       )}
     </section>
