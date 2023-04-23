@@ -3,19 +3,23 @@ import { Category } from "../category/category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import s from "./burger-ingredients.module.css";
 import cn from "classnames";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/hook";
 import { useInView } from "react-intersection-observer";
 
-export const BurgerIngredients = () => {
-  const ingredients = useSelector((state) => state.burgerIngredient.data);
+const BurgerIngredients: React.FC = () => {
+  const ingredients = useAppSelector(
+    (state) => state.burgerIngredient.data
+  );
 
   const buns = ingredients.filter((item) => item.type === "bun");
   const sauce = ingredients.filter((item) => item.type === "sauce");
   const main = ingredients.filter((item) => item.type === "main");
 
-  const isLoading = useSelector((state) => state.burgerIngredient.isLoading);
+  const isLoading = useAppSelector(
+    (state) => state.burgerIngredient.isLoading
+  );
 
-  const [current, setCurrent] = useState("bun");
+  const [current, setCurrent] = useState<string>("bun");
 
   const [refBun, inViewBun] = useInView();
   const [refMain, inViewMain] = useInView();
@@ -31,9 +35,9 @@ export const BurgerIngredients = () => {
     }
   }, [inViewBun, inViewSauce, inViewMain]);
 
-  function handleClickTab(tab) {
+  function handleClickTab(tab: string) {
     setCurrent(tab);
-    const title = document.getElementById(tab);
+    const title = document.getElementById(tab) as HTMLDivElement;
     if (title) title.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -58,12 +62,7 @@ export const BurgerIngredients = () => {
         <h1 className="text text_type_main-large">Загрузка...</h1>
       ) : (
         <div className={cn(s.wrapper, "custom-scroll")}>
-          <Category 
-            title="Булки" 
-            id="buns" 
-            ingredients={buns} 
-            ref={refBun} 
-          />
+          <Category title="Булки" id="buns" ingredients={buns} ref={refBun} />
           <Category
             title="Соусы"
             id="sauce"

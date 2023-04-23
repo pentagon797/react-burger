@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import s from "./profile-page.module.css";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
@@ -6,14 +6,19 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hook";
 import { logoutUser, updateInfoUser } from "../../services/reducers/userSlice";
 import { getCookie } from "../../utils/cookie";
+import { IUser } from "../../utils/burger-api";
+
+export type ILogoutBody = {
+  token: string | undefined,
+}
 
 export const ProfilePage = () => {
-  const dispatch = useDispatch();
-  const mail = useSelector((state) => state.rootReducer?.user.data.email);
-  const name = useSelector((state) => state.rootReducer?.user.data.name);
+  const dispatch = useAppDispatch();
+  const mail = useAppSelector((state) => state.rootReducer?.user?.data?.email);
+  const name = useAppSelector((state) => state.rootReducer?.user?.data?.name);
   const [value, setValue] = React.useState({
     name: name,
     email: mail,
@@ -22,14 +27,15 @@ export const ProfilePage = () => {
   const requestBodyChange = value;
   const token = getCookie("refreshToken");
 
-  const RequestBody = {
+  const RequestBody :ILogoutBody = {
     token: token,
   };
-  const logout = (RequestBody) => {
+
+  const logout = (RequestBody: ILogoutBody) => {
     dispatch(logoutUser(RequestBody));
   };
 
-  const changeValue = (RequestBody) => {
+  const changeValue = (RequestBody: IUser) => {
     dispatch(updateInfoUser(RequestBody));
   };
 
@@ -109,7 +115,7 @@ export const ProfilePage = () => {
           type={"text"}
           placeholder={"Имя"}
           onChange={(evt) => setValue({ ...value, name: evt.target.value })}
-          value={value.name}
+          value={`${value.name}`}
           name={"name"}
           error={false}
           errorText={"Ошибка"}
@@ -120,7 +126,7 @@ export const ProfilePage = () => {
           type={"email"}
           placeholder={"Логин"}
           onChange={(evt) => setValue({ ...value, email: evt.target.value })}
-          value={value.email}
+          value={`${value.email}`}
           name={"email"}
           icon="EditIcon"
           extraClass="mt-6"
@@ -134,7 +140,7 @@ export const ProfilePage = () => {
           icon="EditIcon"
           extraClass="mt-6"
         />
-        <div className={`mt-6`}>
+        <div className={"mt-6"}>
           <Button
             type="secondary"
             size="medium"

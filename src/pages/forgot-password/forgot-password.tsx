@@ -6,11 +6,11 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hook";
 import { resetPasswordEmail } from "../../services/reducers/userSlice";
 
 export const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [value, setValue] = useState({
@@ -18,11 +18,11 @@ export const ForgotPasswordPage = () => {
   });
 
   const requsetBody = value;
-  const isRequestSuccess = useSelector(
+  const isRequestSuccess = useAppSelector(
     (state) => state?.rootReducer?.user?.resetPasswordEmailError
   );
 
-  const onSubmit = (requsetBody) => {
+  const onSubmit = (requsetBody: object) => {
     dispatch(resetPasswordEmail(requsetBody));
     if (!isRequestSuccess) {
       navigate("/reset-password", { state: { fromForgotPassword: true } });
@@ -32,7 +32,7 @@ export const ForgotPasswordPage = () => {
   const isSendAvailable = Boolean(
     value.email.length > 0 && value.email.includes("@")
   );
-  
+
   return (
     <section className={cn(s.forgotPassword)}>
       <form
@@ -70,7 +70,7 @@ export const ForgotPasswordPage = () => {
             Восстановить
           </Button>
         )}
-        <div className={cn(s.forgotPassword__container, `mt-20`)}>
+        <div className={cn(s.forgotPassword__container, "mt-20")}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
           </p>
@@ -78,7 +78,7 @@ export const ForgotPasswordPage = () => {
             to="/login"
             className={cn(
               s.forgotPassword__link,
-              `text text_type_main-default`
+              "text text_type_main-default"
             )}
           >
             Войти

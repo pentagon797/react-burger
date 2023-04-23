@@ -1,14 +1,16 @@
 import cn from "classnames";
 import s from "./ingredient-details.module.css";
 import React from "react";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useAppSelector } from "../../services/hook";
 import { useParams } from "react-router-dom";
+import { RootState } from "../../services/store";
 
-export const IngredientDetails = () => {
+export const IngredientDetails: React.FC = () => {
   const { idIngredient } = useParams();
 
-  const ingredients = useSelector((state) => state.burgerIngredient.data);
+  const ingredients = useAppSelector(
+    (state) => state.burgerIngredient.data
+  );
   const ingredientDetail = ingredients.find(
     (data) => data._id === idIngredient
   );

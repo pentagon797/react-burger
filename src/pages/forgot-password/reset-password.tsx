@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import s from "./forgot-password.module.css";
 import cn from "classnames";
-import { Link, NavLink, Route, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Button,
-  EmailInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/hook";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { resetPasswordNew } from "../../services/reducers/userSlice";
+import { IUser } from "../../utils/burger-api";
 
 export const ResetPasswordPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState({
     password: "",
     token: "",
   });
 
   const requestBody = value;
-  const onSubmit = (requestBody) => {
+  const onSubmit = (requestBody: IUser) => {
     dispatch(resetPasswordNew(requestBody));
   };
 
@@ -38,9 +37,7 @@ export const ResetPasswordPage = () => {
       >
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <Input
-          onChange={(evt) =>
-            setValue({ ...value, token: evt.target.value })
-          }
+          onChange={(evt) => setValue({ ...value, token: evt.target.value })}
           value={value.token}
           name={"token"}
           extraClass="mt-6"
@@ -73,7 +70,7 @@ export const ResetPasswordPage = () => {
             Сохранить
           </Button>
         )}
-        <div className={cn(s.forgotPassword__container, `mt-20`)}>
+        <div className={cn(s.forgotPassword__container, "mt-20")}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
           </p>
@@ -81,7 +78,7 @@ export const ResetPasswordPage = () => {
             to="/login"
             className={cn(
               s.forgotPassword__link,
-              `text text_type_main-default`
+              "text text_type_main-default"
             )}
           >
             Войти
