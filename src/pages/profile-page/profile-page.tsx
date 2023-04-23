@@ -9,6 +9,11 @@ import {
 import { useAppDispatch, useAppSelector } from "../../services/hook";
 import { logoutUser, updateInfoUser } from "../../services/reducers/userSlice";
 import { getCookie } from "../../utils/cookie";
+import { IUser } from "../../utils/burger-api";
+
+export type ILogoutBody = {
+  token: string | undefined,
+}
 
 export const ProfilePage = () => {
   const dispatch = useAppDispatch();
@@ -22,15 +27,15 @@ export const ProfilePage = () => {
   const requestBodyChange = value;
   const token = getCookie("refreshToken");
 
-  const RequestBody = {
+  const RequestBody :ILogoutBody = {
     token: token,
   };
 
-  const logout = (RequestBody: any) => {
+  const logout = (RequestBody: ILogoutBody) => {
     dispatch(logoutUser(RequestBody));
   };
 
-  const changeValue = (RequestBody: any) => {
+  const changeValue = (RequestBody: IUser) => {
     dispatch(updateInfoUser(RequestBody));
   };
 

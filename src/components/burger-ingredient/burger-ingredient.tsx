@@ -32,7 +32,7 @@ export const BurgerIngredient: React.FC<IBurgerIngredient> = ({
   });
 
   const countID = data._id;
-  const counter = useAppSelector((state: any) =>
+  const counter = useAppSelector((state) =>
     selectCountState(state, countID)
   );
 
@@ -41,7 +41,7 @@ export const BurgerIngredient: React.FC<IBurgerIngredient> = ({
       className={cn(s.ingredient, "mb-6")}
       ref={dragRef}
       state={{ background: location }}
-      to={"ingredients/${data._id}"}
+      to={`ingredients/${data._id}`}
       onClick={handleClickIngredient}
     >
       {counter !== 0 && <Counter count={counter} size="default" />}

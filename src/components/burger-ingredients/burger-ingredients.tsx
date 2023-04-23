@@ -5,11 +5,10 @@ import s from "./burger-ingredients.module.css";
 import cn from "classnames";
 import { useAppSelector } from "../../services/hook";
 import { useInView } from "react-intersection-observer";
-import { RootState } from "../../services/store";
 
 const BurgerIngredients: React.FC = () => {
   const ingredients = useAppSelector(
-    (state: RootState) => state.burgerIngredient.data
+    (state) => state.burgerIngredient.data
   );
 
   const buns = ingredients.filter((item) => item.type === "bun");
@@ -17,7 +16,7 @@ const BurgerIngredients: React.FC = () => {
   const main = ingredients.filter((item) => item.type === "main");
 
   const isLoading = useAppSelector(
-    (state: RootState) => state.burgerIngredient.isLoading
+    (state) => state.burgerIngredient.isLoading
   );
 
   const [current, setCurrent] = useState<string>("bun");

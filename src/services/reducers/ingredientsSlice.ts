@@ -21,7 +21,7 @@ export type TIngredient = {
 interface IIngredientState {
   data: TIngredient[];
   isLoading: boolean;
-  error: string | undefined | null;
+  error: string | unknown | null;
 }
 
 const initialState: IIngredientState = {
@@ -32,14 +32,7 @@ const initialState: IIngredientState = {
 
 export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await getInfoFromServer();
-      return res;
-    } catch (error) {
-      return rejectWithValue(alert("Ошибка"));
-    }
-  }
+  getInfoFromServer
 );
 
 export const ingredientsSlice = createSlice({
@@ -58,7 +51,7 @@ export const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        alert("Ошибка")
+        state.error = action.payload;
       });
   },
 });

@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { TIngredient } from "./ingredientsSlice";
+import { RootState } from "../store";
 
 interface IConstructorState {
   bun: TIngredient | null;
@@ -67,7 +68,7 @@ export const burgerConstructorSlice = createSlice({
 });
 
 export const selectCountState = createSelector(
-  [items, buns, (items: TIngredient[], id: string) => id],
+  [items, buns, (state: RootState, id: string) => id],
   (items, buns, id) => {
     return [buns, ...items, buns].filter(
       (ingredient) => ingredient && ingredient._id === id

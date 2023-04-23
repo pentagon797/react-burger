@@ -5,7 +5,7 @@ import { useAppSelector } from "../../services/hook";
 
 export const OrderDetails = () => {
   const orderNumber = useAppSelector(
-    (state) => state.burgerOrder.serverResponse
+    (state) => state.burgerOrder.order
   );
   const orderLoading = useAppSelector((state) => state.burgerOrder.isLoading);
 

@@ -8,7 +8,7 @@ export function getCookie(name: string): string | undefined {
 interface CookieProps {
   path?: string;
   expires?: string | number | Date;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export function setCookie(name: string, value: string, props: CookieProps = {}): void {

@@ -9,7 +9,7 @@ export const IngredientDetails: React.FC = () => {
   const { idIngredient } = useParams();
 
   const ingredients = useAppSelector(
-    (state: RootState) => state.burgerIngredient.data
+    (state) => state.burgerIngredient.data
   );
   const ingredientDetail = ingredients.find(
     (data) => data._id === idIngredient

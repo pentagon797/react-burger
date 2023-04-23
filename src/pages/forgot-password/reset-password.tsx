@@ -9,6 +9,7 @@ import {
 import { useAppDispatch } from "../../services/hook";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { resetPasswordNew } from "../../services/reducers/userSlice";
+import { IUser } from "../../utils/burger-api";
 
 export const ResetPasswordPage = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ export const ResetPasswordPage = () => {
   });
 
   const requestBody = value;
-  const onSubmit = (requestBody: any) => {
+  const onSubmit = (requestBody: IUser) => {
     dispatch(resetPasswordNew(requestBody));
   };
 

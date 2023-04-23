@@ -1,9 +1,19 @@
+import { ILogoutBody } from "../pages/profile-page/profile-page";
+import { TIngredient } from "../services/reducers/ingredientsSlice";
 import { getCookie, setCookie } from "./cookie";
 
 export const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 
+type TResponseServer = {
+  success: boolean;
+}
+
+type TResponseIngredientsServer = {
+  data:TIngredient[]
+} & TResponseServer;
+
 export const getInfoFromServer = () => {
-  return request(`${BURGER_API_URL}/ingredients`).then((data) => data.data);
+  return request<TResponseIngredientsServer>(`${BURGER_API_URL}/ingredients`).then((data) => data.data);
 };
 
 export const checkResponse = (res: Response): Promise<any> => {
@@ -14,7 +24,7 @@ export const checkResponse = (res: Response): Promise<any> => {
       .then((err) => Promise.reject({ ...err, statusCode: res.status } as ErrorResponse));
 };
 
-export const request = (url: string, options?: RequestInit): Promise<any> => {
+export const request = <T>(url: string, options?: RequestInit): Promise<T> => {
   return fetch(url, options).then(checkResponse);
 };
 
@@ -32,7 +42,7 @@ export interface IUser {
 }
 
 export interface IUserReq {
-  user?: IUser,
+  user: IUser,
   success: boolean,
   accessToken: string,
   refreshToken: string,
@@ -40,7 +50,7 @@ export interface IUserReq {
 
 export type TUserResponse = {
   success: boolean,
-  user?: IUser,
+  user: IUser,
   accessToken: string,
   refreshToken: string,
 }
@@ -48,7 +58,7 @@ export type TUserResponse = {
 
 export class BurgerApi {
 
-  fetchWithRefresh = async (url: string, options: any) => {
+  fetchWithRefresh = async (url: RequestInfo, options: RequestInit) => {
     try {
       const res = await fetch(url, options);
       return await checkResponse(res);
@@ -62,7 +72,10 @@ export class BurgerApi {
 
         setCookie("accessToken", refreshData.accessToken);
         setCookie("refreshToken", refreshData.refreshToken);
-        options.headers.authorization = refreshData.accessToken;
+        if(options.headers){
+          (options.headers as {[key: string]:string}).authorization = refreshData.accessToken;
+
+        }
         const res = await fetch(url, options);
         return await checkResponse(res);
 
@@ -100,7 +113,7 @@ export class BurgerApi {
       });
   };
 
-  logoutUser = (data: any) => {
+  logoutUser = (data: ILogoutBody) => {
     return fetch(`${BURGER_API_URL}/auth/logout`, {
       method: "POST",
       headers: {
@@ -114,7 +127,7 @@ export class BurgerApi {
       });
   };
 
-  forgotPasswordEmail = (data: any) => {
+  forgotPasswordEmail = (data: IUser) => {
     return fetch(`${BURGER_API_URL}/password-reset`, {
       method: "POST",
       headers: {
@@ -128,7 +141,7 @@ export class BurgerApi {
       });
   };
 
-  forgotPasswordNew = (data: any) => {
+  forgotPasswordNew = (data: IUser) => {
     return fetch(`${BURGER_API_URL}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -142,7 +155,7 @@ export class BurgerApi {
       });
   };
 
-  updateInfoUser = (data: any) => {
+  updateInfoUser = (data: IUser) => {
     return fetch(`${BURGER_API_URL}/auth/user`, {
       method: "PATCH",
       headers: {
@@ -173,7 +186,7 @@ export class BurgerApi {
     return this.fetchWithRefresh(`${BURGER_API_URL}/auth/user`, {
       headers: {
         authorization: getCookie("accessToken"),
-      },
+      } as HeadersInit,
     }).then(data => {
       if (data?.success) return data;
       return Promise.reject(data)

@@ -27,4 +27,4 @@ export type AppDispatch = typeof store.dispatch;
 export type ThunkAPI = {
   dispatch: AppDispatch,
   extra: BurgerApi;
-}
+} 

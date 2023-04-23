@@ -9,6 +9,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hook";
 import { loginUser } from "../../services/reducers/userSlice";
+import { IUser } from "../../utils/burger-api";
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ export const LoginPage = () => {
     (state) => state?.rootReducer?.user?.data
   );
 
-  const onSubmitLogin = (data: any) => {
+  const onSubmitLogin = (data: IUser) => {
     dispatch(loginUser(data));
     if (isUserLoginnedSuccessfully) {
       navigate("/profile");

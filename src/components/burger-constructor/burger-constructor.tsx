@@ -22,16 +22,16 @@ import { RootState } from "../../services/store";
 
 export const BurgerConstructor = (): JSX.Element => {
   const selectBuns = useAppSelector(
-    (state: RootState) => state.burgerConstructor.bun
+    (state) => state.burgerConstructor.bun
   );
   const selectIngredients = useAppSelector(
-    (state: RootState) => state.burgerConstructor.ingredients
+    (state) => state.burgerConstructor.ingredients
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isAuth = useAppSelector(
-    (state: RootState) => state.rootReducer?.user?.data
+    (state) => state.rootReducer?.user?.data
   );
   function handleClickOrder() {
     if (isAuth != null) {
@@ -67,9 +67,11 @@ export const BurgerConstructor = (): JSX.Element => {
   }, [selectBuns, selectIngredients]);
 
   const sendRequest = () => {
-    const orderList = [];
+    const orderList:string[] = [];
     const chosenBuns = selectBuns?._id;
-    orderList.push(chosenBuns, chosenBuns);
+    if(chosenBuns) {
+      orderList.push(chosenBuns, chosenBuns);
+    }
     selectIngredients.forEach((ingredient) => {
       orderList.push(ingredient._id);
     });

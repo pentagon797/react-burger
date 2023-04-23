@@ -1,27 +1,28 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { BURGER_API_URL, request } from "../../utils/burger-api";
+import { ThunkAPI } from "../store";
 
-interface IOrderState {
-  orderList: string[] | null;
-  isLoading: boolean;
-  serverResponse: null | {
-    "success"?: boolean,
-    "name"?: string,
-    "order"?: {
-      "number"?: number,
-    }
+type TServerResponse = {
+  success: boolean,
+  name: string,
+  order: {
+    number: number,
   }
 }
+
+interface IOrderState {
+  order: TServerResponse | null;
+  isLoading: boolean;
+}
 const initialState: IOrderState = {
-  orderList: null,
+  order: null,
   isLoading: false,
-  serverResponse: null
 };
 
-export const sendOrder = createAsyncThunk(
+export const sendOrder = createAsyncThunk<TServerResponse, string[], ThunkAPI>(
   "orderSlice/post",
-  async (orderList: any, ThunkApi) => {
-    const res = await request(`${BURGER_API_URL}/orders`, {
+  async (orderList, ThunkApi) => {
+    const res = await request<TServerResponse>(`${BURGER_API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -37,14 +38,14 @@ export const orderSliceInfo = createSlice({
   name: "orderSlice",
   initialState,
   reducers: {
-    setOrderDetails: (state, action: PayloadAction<string[]>) => {
-      state.orderList = action.payload;
+    setOrderDetails: (state, action: PayloadAction<TServerResponse>) => {
+      state.order = action.payload;
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(sendOrder.fulfilled, (state, action: PayloadAction<object>) => {
-        state.serverResponse = action.payload;
+      .addCase(sendOrder.fulfilled, (state, action) => {
+        state.order = action.payload;
         state.isLoading = false;
       })
       .addCase(sendOrder.pending, (state) => {

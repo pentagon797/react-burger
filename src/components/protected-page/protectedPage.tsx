@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../services/hook";
 
 type TProtectedPage = {
-  onlyUnAuth?: any,
+  onlyUnAuth?: boolean,
   children: ReactElement,
 }
 

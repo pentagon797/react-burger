@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { registerUser } from "../../services/reducers/userSlice";
 import { useAppDispatch } from "../../services/hook";
+import { IUser } from "../../utils/burger-api";
 
 export const RegisterPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const RegisterPage: React.FC = () => {
     name: "",
   });
 
-  const registerCallBack = (value: any) => {
+  const registerCallBack = (value: IUser) => {
     dispatch(registerUser(value));
     setValue({
       email: "",
