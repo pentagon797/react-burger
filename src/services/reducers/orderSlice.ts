@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { BURGER_API_URL, request } from "../../utils/burger-api";
 import { ThunkAPI } from "../store";
+import { getCookie } from "../../utils/cookie";
 
 type TServerResponse = {
   success: boolean,
@@ -13,10 +14,19 @@ type TServerResponse = {
 interface IOrderState {
   order: TServerResponse | null;
   isLoading: boolean;
+  serverResponse: null | {
+    success: boolean;
+    name: string;
+    order: {
+      number: number;
+    };
+  }
 }
+
 const initialState: IOrderState = {
   order: null,
   isLoading: false,
+  serverResponse: null
 };
 
 export const sendOrder = createAsyncThunk<TServerResponse, string[], ThunkAPI>(
@@ -26,7 +36,8 @@ export const sendOrder = createAsyncThunk<TServerResponse, string[], ThunkAPI>(
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-      },
+        authorization: getCookie('accessToken')
+      } as HeadersInit,
       body: JSON.stringify({ ingredients: orderList }),
     });
     ThunkApi.dispatch(setOrderDetails(res));

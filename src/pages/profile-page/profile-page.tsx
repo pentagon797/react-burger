@@ -1,19 +1,11 @@
 import React from "react";
-import s from "./profile-page.module.css";
-import cn from "classnames";
-import { NavLink } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../../services/hook";
-import { logoutUser, updateInfoUser } from "../../services/reducers/userSlice";
-import { getCookie } from "../../utils/cookie";
+import { updateInfoUser } from "../../services/reducers/userSlice";
 import { IUser } from "../../utils/burger-api";
-
-export type ILogoutBody = {
-  token: string | undefined,
-}
 
 export const ProfilePage = () => {
   const dispatch = useAppDispatch();
@@ -25,15 +17,6 @@ export const ProfilePage = () => {
     password: "",
   });
   const requestBodyChange = value;
-  const token = getCookie("refreshToken");
-
-  const RequestBody :ILogoutBody = {
-    token: token,
-  };
-
-  const logout = (RequestBody: ILogoutBody) => {
-    dispatch(logoutUser(RequestBody));
-  };
 
   const changeValue = (RequestBody: IUser) => {
     dispatch(updateInfoUser(RequestBody));
@@ -49,62 +32,7 @@ export const ProfilePage = () => {
   const isEditAvailable = Boolean(value.name !== name || value.email !== mail);
 
   return (
-    <section className={cn(s.profilePage, "mt-30")}>
-      <nav className={cn(s.profileNav)}>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? cn(
-                  s.profileLink,
-                  s.profileLink__active,
-                  "text text_type_main-medium"
-                )
-              : cn(
-                  s.profileLink,
-                  "text text_type_main-medium text_color_inactive"
-                )
-          }
-          to="/profile"
-        >
-          Профиль
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? cn(
-                  s.profileLink,
-                  s.profileLink__active,
-                  "text text_type_main-medium"
-                )
-              : cn(
-                  s.profileLink,
-                  "text text_type_main-medium text_color_inactive"
-                )
-          }
-          to="/404"
-        >
-          История заказов
-        </NavLink>
-        <button
-          className={cn(
-            s.profile__exit_button,
-            "text text_type_main-medium text_color_inactive"
-          )}
-          onClick={() => {
-            logout(RequestBody);
-          }}
-        >
-          Выход
-        </button>
-        <span
-          className={cn(
-            s.profile__span_text,
-            "text text_type_main-default text_color_inactive mt-20"
-          )}
-        >
-          В этом разделе вы можете&nbsp; изменить свои персональные данные
-        </span>
-      </nav>
+    <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -160,7 +88,7 @@ export const ProfilePage = () => {
           )}
         </div>
       </form>
-    </section>
+    </div>
   );
 };
 

@@ -32,9 +32,7 @@ export const BurgerIngredient: React.FC<IBurgerIngredient> = ({
   });
 
   const countID = data._id;
-  const counter = useAppSelector((state) =>
-    selectCountState(state, countID)
-  );
+  const counter = useAppSelector((state) => selectCountState(state, countID));
 
   return (
     <Link

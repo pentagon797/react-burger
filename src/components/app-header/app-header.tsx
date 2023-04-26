@@ -29,7 +29,7 @@ export const AppHeader = () => {
               </>
             )}
           </NavLink>
-          <NavLink className={cn(s.link, "p-5")} to="/404">
+          <NavLink className={cn(s.link, "p-5")} to="/feed">
             {({ isActive }) => (
               <>
                 <ListIcon type={isActive ? "primary" : "secondary"} />
