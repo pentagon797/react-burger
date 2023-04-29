@@ -29,30 +29,27 @@ export const orderDate = (date: Date | undefined) => {
   }
 };
 
-export const getTotalSumOfOrder = (ingredients: any): number => {
-  return ingredients?.reduce(
-    (prev: number, next: TIngredient) => prev + next?.price,
-    0
-  );
-};
-
-export const findIngredientByID = (
-  idArrayToFind: string[],
-  whereToFindArray: TIngredient[]
-) => {
-  return idArrayToFind.map((id) => {
-    return whereToFindArray.find((item) => item._id === id);
-  });
-};
-
 export const ingredientsIcons = (ingredients: TIngredient[], order: TFeed) =>
   ingredients.filter((ingredient) =>
     order.ingredients.includes(ingredient._id)
   );
 
+function inNotUndefined<T>(item: T | undefined): item is T {
+  return item !== undefined
+};
+
 const FeedElement = ({ order }: { order: TFeed }) => {
   const location = useLocation();
   const ingredients = useAppSelector((state) => state.burgerIngredient.data);
+
+  const findIngredientByID  = order.ingredients.map (id => {
+    return ingredients.find(item => item._id === id);
+  }).filter(inNotUndefined);
+  
+  const getTotalSumOfOrder = findIngredientByID.reduce(
+    (prev, ingredient) => prev + ingredient.price,
+  0
+) || 0;
 
   return (
     <Link
@@ -97,9 +94,7 @@ const FeedElement = ({ order }: { order: TFeed }) => {
           </ul>
           <div className={s.total}>
             <p className="text text_type_digits-default mr-2">
-              {getTotalSumOfOrder(
-                findIngredientByID(order.ingredients, ingredients)
-              )}
+              {getTotalSumOfOrder}
             </p>
             <CurrencyIcon type="primary" />
           </div>

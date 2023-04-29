@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../modal/modal";
-import { WS_URL_FEED, WS_URL_ORDERS } from "../../utils/burger-api";
-import {
-  wsConnectFeed,
-  wsDisconnectFeed,
-  wsConnectOrder,
-  wsDisconnectOrder,
-} from "../../services/actions/feed";
 import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
 import { useAppDispatch } from "../../services/hook";
 import { checkUserAuth } from "../../services/reducers/userSlice";
@@ -44,15 +37,6 @@ export const App: React.FC = () => {
   useEffect(() => {
     dispatch(checkUserAuth());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(wsConnectOrder({ wsUrl: WS_URL_ORDERS, withTokenRefresh: true }));
-    dispatch(wsConnectFeed({ wsUrl: WS_URL_FEED, withTokenRefresh: false }));
-    return () => {
-      dispatch(wsDisconnectOrder());
-      dispatch(wsDisconnectFeed());
-    };
-  }, []);
 
   function handleCloseModal() {
     navigate(background.pathname, { replace: true });

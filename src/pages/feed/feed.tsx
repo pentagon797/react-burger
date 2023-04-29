@@ -1,10 +1,25 @@
 import s from "./feed.module.css";
 import cn from "classnames";
 import { useAppSelector } from "../../services/hook";
-import FeedElement from "../../components/feed-element/feed-element";
 import { TFeed } from "../../services/actions/feed";
+import FeedElement from "../../components/feed-element/feed-element";
+import React, { useEffect } from "react";
+import { WS_URL_FEED } from "../../utils/burger-api";
+import { useAppDispatch } from "../../services/hook";
+import {
+  wsConnectFeed,
+  wsDisconnectFeed,
+} from "../../services/actions/feed";
 
 export const FeedPage = () => {
+  const dispatch = useAppDispatch(); 
+  useEffect(() => {
+    dispatch(wsConnectFeed({ wsUrl: WS_URL_FEED, withTokenRefresh: false }));
+    return () => {
+      dispatch(wsDisconnectFeed());
+    };
+  }, []);
+
   const orders = useAppSelector(
     (state) => state.rootReducer.feedPage.data?.orders
   );

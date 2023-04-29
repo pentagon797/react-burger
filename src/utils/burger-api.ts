@@ -194,7 +194,6 @@ export class BurgerApi {
       return Promise.reject(data)
     });
   }
-
 }
 
 export default new BurgerApi()

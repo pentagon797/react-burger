@@ -1,28 +1,38 @@
-import { useParams } from "react-router-dom";
+import React from 'react'
+import { useParams, useLocation } from "react-router-dom";
 import cn from "classnames";
 import s from "./order-info.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector } from "../../services/hook";
 import { orderDate } from "../feed-element/feed-element";
-import {
-  getTotalSumOfOrder,
-  ingredientsIcons,
-} from "../feed-element/feed-element";
+import { ingredientsIcons } from "../feed-element/feed-element";
+
+function inNotUndefined<T>(item: T | undefined): item is T {
+  return item !== undefined 
+};
 
 export const OrderInfo = () => {
-  const { id } = useParams();
-
+  const location = useLocation();
+  const { id } = useParams<({ id: string })>();
   const ingredients = useAppSelector((state) => state.burgerIngredient.data);
 
-  const orders = useAppSelector(
-    (state) => state.rootReducer.feedPage.data?.orders
-  );
+  const profileOrders = useAppSelector((state) => state.rootReducer.orderPage.data?.orders);
+  const feedOrders = useAppSelector((state) => state.rootReducer.feedPage.data?.orders);
+
+  const orders = location.pathname.includes("/profile/orders")  
+  ? profileOrders
+  : feedOrders;
 
   const order = orders?.find((order) => order._id === id);
 
   const orderIngredients = order?.ingredients.map((id) => {
     return ingredients.find((item) => item._id === id);
-  });
+  }).filter(inNotUndefined);
+
+  const getTotalSumOfOrder = orderIngredients?.reduce(
+    (prev, ingredient) => prev + ingredient.price,
+  0
+) || 0;
 
   return (
     <section className={s.orderInfo}>
@@ -84,7 +94,7 @@ export const OrderInfo = () => {
         </p>
         <div className={s.orderInfo__price}>
           <p className="text text_type_digits-default ">
-            {getTotalSumOfOrder(orderIngredients)}
+            {getTotalSumOfOrder}
           </p>
           <CurrencyIcon type="primary" />
         </div>
