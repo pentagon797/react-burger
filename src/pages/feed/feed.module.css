@@ -1,0 +1,86 @@
+@keyframes shine {
+	0% {
+		text-shadow: none;
+	}
+	50% {
+		text-shadow: 0 0 10px #8585ad;
+		scale: 1.005;
+	}
+	100% {
+		text-shadow: none;
+	}
+}
+
+.feed {
+  display: flex;
+  margin: 40px auto 0;
+  gap: 55px;
+  max-width: 1240px;
+  overflow: visible;
+}
+
+.feed__title {
+	animation: shine 3s ease-in-out infinite;
+}
+
+.feed__list_container {
+	max-width: 610px;
+	width: 100%;
+}
+
+.feed__list {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	max-height: 675px;
+	overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.feed__element_container {
+	width: 584px;
+	height: 214px;
+	margin-right: 15px;
+}
+
+.date_ready_list {
+	display: flex;
+	flex-direction: column;
+}
+
+.feed__order_info {
+	display: flex;
+	flex-direction: column;
+}
+
+.feed__order_info_container {
+	display: flex;
+	gap: 28px;
+}
+
+.orders {
+	display: flex;
+	flex-direction: column;
+	width: 280px;
+}
+
+.orders__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.orders__done {
+	color: var(--colors-interface-success);
+}
+
+.glow {
+	text-shadow: 0px 0px 16px var(--colors-interface-accent);
+}
+

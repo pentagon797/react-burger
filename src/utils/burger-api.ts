@@ -1,15 +1,17 @@
-import { ILogoutBody } from "../pages/profile-page/profile-page";
+import { ILogoutBody } from "../components/profile-navigation/profile-navigation";
 import { TIngredient } from "../services/reducers/ingredientsSlice";
 import { getCookie, setCookie } from "./cookie";
 
 export const BURGER_API_URL = "https://norma.nomoreparties.space/api";
+export const WS_URL_FEED = 'wss://norma.nomoreparties.space/orders/all';
+export const WS_URL_ORDERS = 'wss://norma.nomoreparties.space/orders';
 
 type TResponseServer = {
   success: boolean;
 }
 
 type TResponseIngredientsServer = {
-  data:TIngredient[]
+  data: TIngredient[]
 } & TResponseServer;
 
 export const getInfoFromServer = () => {
@@ -72,8 +74,8 @@ export class BurgerApi {
 
         setCookie("accessToken", refreshData.accessToken);
         setCookie("refreshToken", refreshData.refreshToken);
-        if(options.headers){
-          (options.headers as {[key: string]:string}).authorization = refreshData.accessToken;
+        if (options.headers) {
+          (options.headers as { [key: string]: string }).authorization = refreshData.accessToken;
 
         }
         const res = await fetch(url, options);
@@ -192,7 +194,6 @@ export class BurgerApi {
       return Promise.reject(data)
     });
   }
-
 }
 
 export default new BurgerApi()

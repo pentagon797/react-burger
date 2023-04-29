@@ -1,3 +1,16 @@
+@keyframes shine {
+    0% {
+      text-shadow: none;
+    }
+    50% {
+      text-shadow: 0 0 10px #8585ad;
+      scale: 1.005;
+    }
+    100% {
+      text-shadow: none;
+    }
+  }
+
 .mainPage {
     display: flex;
     flex-direction: column;
@@ -8,6 +21,7 @@
     margin-left: auto;
     margin-right: auto;
     padding-left: 55px;
+    animation: shine 3s ease-in-out infinite;
 }
 
 .mainPage__content {

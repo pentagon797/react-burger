@@ -18,21 +18,16 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hook";
-import { RootState } from "../../services/store";
 
 export const BurgerConstructor = (): JSX.Element => {
-  const selectBuns = useAppSelector(
-    (state) => state.burgerConstructor.bun
-  );
+  const selectBuns = useAppSelector((state) => state.burgerConstructor.bun);
   const selectIngredients = useAppSelector(
     (state) => state.burgerConstructor.ingredients
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const isAuth = useAppSelector(
-    (state) => state.rootReducer?.user?.data
-  );
+  const isAuth = useAppSelector((state) => state.rootReducer?.user?.data);
   function handleClickOrder() {
     if (isAuth != null) {
       sendRequest();
@@ -67,9 +62,9 @@ export const BurgerConstructor = (): JSX.Element => {
   }, [selectBuns, selectIngredients]);
 
   const sendRequest = () => {
-    const orderList:string[] = [];
+    const orderList: string[] = [];
     const chosenBuns = selectBuns?._id;
-    if(chosenBuns) {
+    if (chosenBuns) {
       orderList.push(chosenBuns, chosenBuns);
     }
     selectIngredients.forEach((ingredient) => {

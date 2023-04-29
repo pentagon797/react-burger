@@ -5,7 +5,7 @@ import { useAppSelector } from "../../services/hook";
 
 export const OrderDetails = () => {
   const orderNumber = useAppSelector(
-    (state) => state.burgerOrder.order
+    (state) => state.burgerOrder.order?.order.number
   );
   const orderLoading = useAppSelector((state) => state.burgerOrder.isLoading);
 
@@ -15,7 +15,7 @@ export const OrderDetails = () => {
         <h2 className="text text_type_main-large mt-30 mb-8">Загрузка...</h2>
       ) : (
         <h2 className="text text_type_digits-large mt-30 mb-8">
-          {orderNumber?.order?.number}
+          {orderNumber}
         </h2>
       )}
       <h3 className="text text_type_main-medium">идентификатор заказа</h3>

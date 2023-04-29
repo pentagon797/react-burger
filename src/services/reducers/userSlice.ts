@@ -3,7 +3,7 @@ import { deleteCookie, setCookie } from "../../utils/cookie";
 import { IUser, IUserReq } from "../../utils/burger-api";
 import { ThunkAPI } from "../store";
 import { RootState } from "../store";
-import { ILogoutBody } from "../../pages/profile-page/profile-page";
+import { ILogoutBody } from "../../components/profile-navigation/profile-navigation";
 
 export const sliceName = "user";
 

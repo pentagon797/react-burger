@@ -1,0 +1,44 @@
+.profileNav {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+.profileLink {
+  text-decoration: none;
+  padding: 17px 0 17px 5px;
+  transition: all 0.2s ease-in;
+}
+
+.profileLink__active {
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease-in;
+}
+
+.profile__exit_button {
+  text-align: start;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  padding: 17px 0 17px 5px;
+}
+
+.profile__span_text {
+  padding-left: 3px;
+}
+
+.profileLink:hover {
+  color: #fff;
+  text-shadow:
+    0 0 15px rgb(255,255,255),
+    0 0 5px rgba(180, 0, 255, 0.5);
+}
+
+.profile__exit_button:hover {
+  color: #fff;
+  text-shadow:
+    0 0 15px rgb(255,255,255),
+    0 0 5px rgba(180, 0, 255, 0.5);
+}

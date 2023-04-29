@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../modal/modal";
+import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
 import { useAppDispatch } from "../../services/hook";
 import { checkUserAuth } from "../../services/reducers/userSlice";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { ProtectedPage } from "../protected-page/protectedPage";
-import { MainLayout } from "../../pages/layout/main-layout";
+import { MainLayout } from "../../pages/main-layout/main-layout";
 import { MainPage } from "../../pages/main-page/main-page";
 import { IngredientPage } from "../../pages/ingredient/ingredient-page";
 import { Page404 } from "../../pages/page-404/page-404";
@@ -14,7 +15,11 @@ import { LoginPage } from "../../pages/login-page/login-page";
 import { RegisterPage } from "../../pages/register/register-page";
 import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password";
 import { ResetPasswordPage } from "../../pages/forgot-password/reset-password";
-import { fetchIngredients } from "../../services/reducers/ingredientsSlice";
+import { FeedPage } from "../../pages/feed/feed";
+import { ProfileLayout } from "../../pages/profile-layout/profile-layout";
+import { ProfileOrders } from "../../pages/profile-orders/profile-orders";
+import { OrderInfoPage } from "../../pages/order-info-page/orderInfo";
+import OrderInfo from "../order-info/order-info";
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -58,14 +63,6 @@ export const App: React.FC = () => {
             }
           />
           <Route
-            path="/profile"
-            element={
-              <ProtectedPage>
-                <ProfilePage />
-              </ProtectedPage>
-            }
-          />
-          <Route
             path="/register"
             element={
               <ProtectedPage onlyUnAuth>
@@ -91,6 +88,34 @@ export const App: React.FC = () => {
               }
             />
           )}
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/feed/:id" element={<OrderInfoPage />} />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedPage>
+                <OrderInfoPage />
+              </ProtectedPage>
+            }
+          />
+          <Route path="/profile" element={<ProfileLayout />}>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedPage>
+                  <ProfilePage />
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/profile/orders"
+              element={
+                <ProtectedPage>
+                  <ProfileOrders />
+                </ProtectedPage>
+              }
+            />
+          </Route>
         </Route>
       </Routes>
 
@@ -101,6 +126,22 @@ export const App: React.FC = () => {
             element={
               <Modal onClose={handleCloseModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClose={handleCloseModal}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClose={handleCloseModal}>
+                <OrderInfo />
               </Modal>
             }
           />
