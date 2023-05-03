@@ -11,7 +11,7 @@ type TServerResponse = {
   }
 }
 
-interface IOrderState {
+export interface IOrderState {
   order: TServerResponse | null;
   isLoading: boolean;
   serverResponse: null | {
@@ -23,7 +23,7 @@ interface IOrderState {
   }
 }
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
   order: null,
   isLoading: false,
   serverResponse: null

@@ -28,7 +28,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
   return createPortal(
     <>
       <div className={cn(s.modal)}>
-        <div className={cn(s.modal__close_icon)}>
+        <div className={cn(s.modal__close_icon)} aria-label='Закрыть окно'>
           <CloseIcon onClick={onClose} type="primary" />
         </div>
         {children}
