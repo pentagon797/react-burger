@@ -10,11 +10,7 @@ import {
   updateInfoUser
 } from './userSlice';
 import userReducer from './userSlice';
-
-const testUserData = {
-  mail: "pentagon797@ya.ru",
-  password: "12345678",
-};
+import { testUserData } from '../../utils/tests';
 
 describe('user reducer', () => {
   it('should return initial state', () => {

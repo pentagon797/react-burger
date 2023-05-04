@@ -1,4 +1,4 @@
-import { ordersReducer } from "./orderReducer";
+import { ordersReducer, initialOrderState } from "./orderReducer";
 import { 
   wsOpenOrder, 
   wsCloseOrder, 
@@ -7,16 +7,13 @@ import {
   } from '../actions/feed';
 
   describe('orderReducer', () => {
-    const initialState = {
-      data: null,
-    };
   
     it('should handle wsOpenFeed', () => {
       expect(
         ordersReducer(undefined, {
           type: wsOpenOrder.type,
         })
-      ).toEqual(initialState);
+      ).toEqual(initialOrderState);
     });
   
     it('should handle wsCloseFeed', () => {
@@ -24,7 +21,7 @@ import {
         ordersReducer(undefined, {
           type: wsCloseOrder.type,
         })
-      ).toEqual(initialState);
+      ).toEqual(initialOrderState);
     });
   
     it('should handle wsErrorFeed', () => {
@@ -32,7 +29,7 @@ import {
         ordersReducer(undefined, {
           type: wsErrorOrder.type,
         })
-      ).toEqual(initialState);
+      ).toEqual(initialOrderState);
     });
   
     it('should handle wsMessageFeed', () => {
@@ -43,7 +40,7 @@ import {
         success: true,
       };
       const action = wsMessageOrder(orderList);
-      const state = ordersReducer(initialState, action);
+      const state = ordersReducer(initialOrderState, action);
       const expectedState = {
         data: orderList,
       };

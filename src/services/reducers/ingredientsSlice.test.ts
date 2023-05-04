@@ -1,12 +1,8 @@
-import { fetchIngredients, ingredientsSlice, TIngredient } from "./ingredientsSlice";
+import { fetchIngredients, ingredientsSlice, TIngredient, initialState } from "./ingredientsSlice";
 
 describe("ingredientsSlice", () => {
   it("should change the state to loading while fetching ingredients", () => {
-    const initialState = {
-      data: [],
-      isLoading: false,
-      error: null,
-    };
+    
     expect(ingredientsSlice.reducer(initialState, { type: fetchIngredients.pending.type })).toEqual({
       data: [],
       isLoading: true,
@@ -31,11 +27,7 @@ describe("ingredientsSlice", () => {
         __v:0
       },
     ];
-    const initialState = {
-      data: [],
-      isLoading: false,
-      error: null,
-    };
+   
     expect(ingredientsSlice.reducer(initialState, { type: fetchIngredients.fulfilled.type, payload: ingredients })).toEqual({
       data: ingredients,
       isLoading: false,
@@ -45,11 +37,7 @@ describe("ingredientsSlice", () => {
   
   it("should set the error message when ingredients fetching fails", () => {
     const error = "Something went wrong";
-    const initialState = {
-      data: [],
-      isLoading: false,
-      error: null,
-    };
+    
     expect(ingredientsSlice.reducer(initialState, { type: fetchIngredients.rejected.type, payload: error })).toEqual({
       data: [],
       isLoading: false,

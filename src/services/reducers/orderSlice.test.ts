@@ -1,5 +1,4 @@
-import orderReducer, { sendOrder, setOrderDetails } from './orderSlice';
-import { initialState } from "./orderSlice";
+import orderReducer, { sendOrder, initialState } from './orderSlice';
 import { testOrder } from "../../utils/tests";
 
 describe('burgerOrderInfoSlice reducer', () => {

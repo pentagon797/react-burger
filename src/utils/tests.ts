@@ -1,3 +1,7 @@
+export const testUserData = {
+  mail: "pentagon797@ya.ru",
+  password: "12345678",
+};
 
 export const testOrder = {
 	success: true,

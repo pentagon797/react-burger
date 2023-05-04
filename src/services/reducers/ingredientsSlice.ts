@@ -24,7 +24,7 @@ interface IIngredientState {
   error: string | unknown | null;
 }
 
-const initialState: IIngredientState = {
+export const initialState: IIngredientState = {
   data: [],
   isLoading: false,
   error: null,

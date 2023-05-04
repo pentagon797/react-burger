@@ -4,6 +4,9 @@ describe("BurgerConstructor", () => {
     password: "12345678",
   };
 
+  const craterBun = 'Краторная булка';
+  const closeButtonSelector = 'div[aria-label="Закрыть окно"]';
+
   beforeEach(() => {
     cy.viewport(1920, 1080);
     cy.visit("/");
@@ -13,20 +16,20 @@ describe("BurgerConstructor", () => {
   });
 
   it("opens and closes modal of selected ingredient", () => {
-    cy.contains("Краторная булка").click();
-    cy.get('div[aria-label="Закрыть окно"]');
+    cy.contains(craterBun).click();
+    cy.get(closeButtonSelector);
     cy.contains("Детали ингредиента");
-    cy.get('div[aria-label="Закрыть окно"]').click();
+    cy.get(closeButtonSelector).click();
   });
 
   it("shows ingredient info modal", () => {
-    cy.contains("Краторная булка").click();
-    cy.get("#modals").contains("Краторная булка");
-    cy.get('div[aria-label="Закрыть окно"]').click();
+    cy.contains(craterBun).click();
+    cy.get("#modals").contains(craterBun);
+    cy.get(closeButtonSelector).click();
   });
 
   it("allows drag and drop of ingredients", () => {
-    cy.contains("Краторная булка").trigger("dragstart");
+    cy.contains(craterBun).trigger("dragstart");
     cy.contains("Выберите булку")
       .trigger("dragenter")
       .trigger("dragover")
@@ -34,7 +37,7 @@ describe("BurgerConstructor", () => {
   });
 
   it("opens order modal, logs in user, and places order with drag and drop of ingredients", () => {
-    cy.contains("Краторная булка").trigger("dragstart");
+    cy.contains(craterBun).trigger("dragstart");
     cy.contains("Выберите булку")
       .trigger("dragenter")
       .trigger("dragover")
