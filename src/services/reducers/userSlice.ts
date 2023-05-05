@@ -46,7 +46,7 @@ interface IUserState {
   resetPasswordNewRequest: boolean;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   data: null,
   isAuthChecked: false,
 

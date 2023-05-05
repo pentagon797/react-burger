@@ -8,7 +8,7 @@ import {
 } from '../actions/feed';
 import { TFeedState } from '../actions/feed';
 
-const initialFeedState: TFeedState = {
+export const initialFeedState: TFeedState = {
 	data: null
 };
 
